@@ -1,0 +1,128 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-2">
+<title>Blur by REGi</title>
+</head>
+
+<body bgcolor="#0000A0">
+
+<p align="center">
+
+<br>
+<font size="5" color="#00FFFF" face="Arial Black"><b>FIRE w 13H by Micha³
+Rygielski</b></font>
+
+<p align="center">
+
+&nbsp;<p align="left"><font face="Arial" size="3" color="#FFFFFF">1. Fajne
+efekty, na komputerze ju¿ normalka, w ka¿dej grze lub programie mo¿na zauwa¿yæ
+dzia³ania przewspania³ych efektów graficznych, których mo¿na tylko pozazdro¶ciæ.
+Lecz wcale nie musimy pozostawaæ w tyle je¶li chodzi o takie rzeczy. Mo¿emy
+np. stworzyæ program generuj±cy ogieñ, który jest bardzo prosty w
+rozumowaniu i chyba tylko osoby pocz±tkuj±ce nie zakapuj± od razu. Wiêc mo¿e
+poka¿e najwa¿niejsz± czê¶æ, która w programie generuje ogieñ.</font></p>
+<p align="left"><font face="Arial" size="3" color="#FFFF00">      for x:= 5 to 315 do<br>
+      for y:= 165 to 195 do<br>
+      begin<br>
+           if (getpixel(x,y)&lt;63) then<br>
+           begin<br>
+                c:=getpixel(x,y+1);<br>
+if c>5 then<br>
+                begin<br>
+                     putpixel(x+random(5)-2,y,c-random(5)-1);<br>
+                end<br>
+                else putpixel(x,y,0);<br>
+           end;<br>
+      end;</font></p>
+<p align="left"><font face="Arial" size="3" color="#FFFFFF">Powy¿sza sk³adnia
+dzia³a nastêpuj¹co. poprzez polecenia for wyznaczane jest pole, w którym bêd±
+pobierane i rysowane piksele. Zdanie, w którym getpixel(x,y)&lt;63 mówi, ¿e
+je¿eli kolor zostanie pobrany, jest nadawany pikselowi, i przesuwany jedn±
+pozycjê y.</font></p>
+<p align="left"><font face="Arial" size="3" color="#FFFFFF">2. Program w ca³ej
+swej okaza³o¶ci znajduje siê poni¿ej. Mo¿na zmieniaæ w nim ró¿ne
+parametry i patrzeæ na fantastyczne skutki.</font></p>
+<p align="left"><font face="Arial" size="3" color="#FFFF00">uses crt;<br>
+<br>
+procedure init13h; assembler;<br>
+asm<br>
+   mov ax, 13h<br>
+   int $10<br>
+end;<br>
+<br>
+procedure close13h; assembler;<br>
+asm<br>
+   mov ax, 03h<br>
+   int $10<br>
+end;<br>
+<br>
+procedure putpixel(x, y : integer; c : byte);<br>
+begin<br>
+     mem[$a000:320*y+x]:=c;<br>
+end;<br>
+<br>
+function getpixel(x, y : integer) : byte;<br>
+begin<br>
+     getpixel:=mem[$a000:320*y+x];<br>
+end;<br>
+<br>
+procedure paleta;<br>
+var<br>
+   i : integer;<br>
+begin<br>
+     for i:= 0 to 63 do<br>
+     begin<br>
+          port[$3C8]:=i;<br>
+          port[$3C9]:=i;<br>
+          port[$3C9]:=i div 2;<br>
+          port[$3C9]:=0;<br>
+     end;<br>
+end;<br>
+<br>
+var<br>
+   x, y : integer;<br>
+   c : byte;<br>
+<br>
+begin<br>
+init13h;<br>
+paleta;<br>
+for x:= 40 to 280 do putpixel(x,190,63);<br>
+repeat<br>
+      for x:= 5 to 315 do<br>
+      for y:= 165 to 195 do<br>
+      begin<br>
+           if (getpixel(x,y)&lt;63) then<br>
+           begin<br>
+                c:=getpixel(x,y+1);&nbsp;</font><font face="Arial" size="3" color="#C0C0C0"><br>
+</font><font face="Arial" size="3" color="#FFFF00">                if c>5 then<br>
+                begin<br>
+                     putpixel(x+random(5)-2,y,c-random(5)-1);<br>
+                end<br>
+                else putpixel(x,y,0);<br>
+           end;<br>
+      end;<br>
+      delay(50);<br>
+until keypressed;<br>
+close13h;<br>
+end.</font></p>
+<p align="left"><font face="Arial" size="3" color="#FFFFFF">3. Je¿eli chcecie
+by wasz ogieñ wygl±da³ jeszcze lepiej przeczytajcie artyku³
+&quot;SPOSÓB ROZMAZYWANIA&quot;. Je¿eli zrozumiecie wszystko co jest tam
+napisane to na pewno napiszecie super szybki ogieñ, który do tego bêdzie
+rozmazywany.</font></p>
+<p align="left">&nbsp;<p align="center"><b><font face="Arial" size="3" color="#00FFFF">WSZELKIE
+UWAGI NA TEMAT ARTYKU£Y PROSZÊ ZG£ASZAÆ POD ADRES KONTA E-MAIL: <a href="mailto:=ggate@poczta.onet.pl">GGATE@POCZTA.ONET.PL</a>
+W TEMACIE&nbsp; LISTU MUSI ZNALE¦Æ SIÊ &quot;DO MICHA£A&quot;.</font></b>
+
+<p align="center"><b><font face="Arial" color="#FF0000" size="4">Powy¿szy tekst
+jest w³asno¶ci± Micha³a Rygielskiego, </font></b><font face="Arial" size="3" color="#FFFF00"><br>
+</font><b><font face="Arial" color="#FF0000" size="4">zamieszczanie tylko za
+zgod± autora!!!</font></b><font face="Arial" size="3" color="#FFFF00"><br>
+<br>
+</font>
+
+</body>
+
+</html>
